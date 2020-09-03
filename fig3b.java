@@ -469,15 +469,16 @@ dv16dt = ktranspkm1*pck2*perk + vbaspkm - kdegpkm*pkms;
 		values[16]+=dt*dv16dt;
 
 /* Equilibrate basal synaptic weight, prior to stimulation, according to basal kinase activities and other variables. necessary because W is the slowest variable */
+ /* For simulations like this with synaptic reactivation, comment out this equilibration, because synaptic weight should slowly fluctuate, slightly, around basal. But then W has to be initialized close to its basal state. */
 
-		if (time < stime)
+  /*		if (time < stime)
 		  {
 		  wsyn = tausyn*(kltp*tagsyn*prp*(prew/(prew+Kpr2))*inhpkm*pkms+vsynbas);
 		  values[13] = tausyn*(kltp*tagsyn*prp*(prew/(prew+Kpr2))*inhpkm*pkms+vsynbas);
 
 		  wbas = wsyn;
 		  }
-
+  */
 
 // Increment time
                 time=time+dt;
@@ -495,7 +496,7 @@ dv16dt = ktranspkm1*pck2*perk + vbaspkm - kdegpkm*pkms;
 
 /* OUTPUT CONCENTRATION UNITS ARE uM. SCALING FACTORS ARE FOR EASE OF CONCURRENT VISUALIZATION */
 
-/* NOTE – CAMKII is not sampled often enough here to pick up its activation peaks reliably during the reactivation simulations.  A separate simulation that only tracks CaMKII, with higher sampling resolution, was done to better fix its peaks. */
+/* NOTE Â– CAMKII is not sampled often enough here to pick up its activation peaks reliably during the reactivation simulations.  A separate simulation that only tracks CaMKII, with higher sampling resolution, was done to better fix its peaks. */
 
                out1.println(tref + "\t" + 0.12*ck2act);
                out2.println(tref + "\t" + 11.0*erkact);
@@ -512,7 +513,7 @@ dv16dt = ktranspkm1*pck2*perk + vbaspkm - kdegpkm*pkms;
                out13.println(tref + "\t" + perk);
                out14.println(tref + "\t" + 1.5*pkms);
 
-/* For simulations with inhibitor, use “inhpkm*pkms” instead of just “pkms” in last print line, to print out pkm timecourse with inhibition */
+/* For simulations with inhibitor, use Â“inhpkm*pkmsÂ” instead of just Â“pkmsÂ” in last print line, to print out pkm timecourse with inhibition */
 
 /*  These are scaling factors for simple LTP simulation, no feedback.
                out1.println(tref + "\t" + 0.12*ck2act);
